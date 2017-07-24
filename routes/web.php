@@ -15,18 +15,28 @@ Route::get('/', function () {
   return redirect('home');
 });
 
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::resource('companies', 'CompanyController');
+Route::resource('companies', 'CompanyController', [
+    'only' => [
+        'index',
+        'show',
+    ],
+]);
+
+Route::post('companies/block/{id}', [
+    'as' => 'companies.block',
+    'uses' => 'CompanyController@block',
+]);
+
+Route::post('companies/unblock/{id}', [
+    'as' => 'companies.unblock',
+    'uses' => 'CompanyController@unblock',
+]);
 
 Route::resource('companyTypes', 'CompanyTypeController');
-
-
-
-
 
 Route::resource('currencies', 'CurrencyController');
 

@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateCompanyRequest;
-use App\Http\Requests\UpdateCompanyRequest;
 use App\Repositories\CompanyRepository;
-use App\Http\Controllers\AppBaseController;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use MongoDB\BSON\Binary;
 
 class CompanyController extends AppBaseController
 {
@@ -38,34 +36,6 @@ class CompanyController extends AppBaseController
     }
 
     /**
-     * Show the form for creating a new Company.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        return view('companies.create');
-    }
-
-    /**
-     * Store a newly created Company in storage.
-     *
-     * @param CreateCompanyRequest $request
-     *
-     * @return Response
-     */
-    public function store(CreateCompanyRequest $request)
-    {
-        $input = $request->all();
-
-        $company = $this->companyRepository->create($input);
-
-        Flash::success('Company saved successfully.');
-
-        return redirect(route('companies.index'));
-    }
-
-    /**
      * Display the specified Company.
      *
      * @param  int $id
@@ -74,7 +44,7 @@ class CompanyController extends AppBaseController
      */
     public function show($id)
     {
-        $company = $this->companyRepository->findWithoutFail($id);
+        $company = $this->companyRepository->findWithoutFail(new Binary($id, Binary::TYPE_OLD_UUID));
 
         if (empty($company)) {
             Flash::error('Company not found');
@@ -86,15 +56,15 @@ class CompanyController extends AppBaseController
     }
 
     /**
-     * Show the form for editing the specified Company.
+     * Remove the specified Company from storage.
      *
      * @param  int $id
      *
      * @return Response
      */
-    public function edit($id)
+    public function block($id)
     {
-        $company = $this->companyRepository->findWithoutFail($id);
+        $company = $this->companyRepository->findWithoutFail(new Binary($id, Binary::TYPE_OLD_UUID));
 
         if (empty($company)) {
             Flash::error('Company not found');
@@ -102,30 +72,9 @@ class CompanyController extends AppBaseController
             return redirect(route('companies.index'));
         }
 
-        return view('companies.edit')->with('company', $company);
-    }
+        $this->companyRepository->update(['blocked' => true], new Binary($id, Binary::TYPE_OLD_UUID));
 
-    /**
-     * Update the specified Company in storage.
-     *
-     * @param  int              $id
-     * @param UpdateCompanyRequest $request
-     *
-     * @return Response
-     */
-    public function update($id, UpdateCompanyRequest $request)
-    {
-        $company = $this->companyRepository->findWithoutFail($id);
-
-        if (empty($company)) {
-            Flash::error('Company not found');
-
-            return redirect(route('companies.index'));
-        }
-
-        $company = $this->companyRepository->update($request->all(), $id);
-
-        Flash::success('Company updated successfully.');
+        Flash::success('Company blocked successfully.');
 
         return redirect(route('companies.index'));
     }
@@ -137,9 +86,9 @@ class CompanyController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function unblock($id)
     {
-        $company = $this->companyRepository->findWithoutFail($id);
+        $company = $this->companyRepository->findWithoutFail(new Binary($id, Binary::TYPE_OLD_UUID));
 
         if (empty($company)) {
             Flash::error('Company not found');
@@ -147,9 +96,9 @@ class CompanyController extends AppBaseController
             return redirect(route('companies.index'));
         }
 
-        $this->companyRepository->delete($id);
+        $this->companyRepository->update(['blocked' => false], new Binary($id, Binary::TYPE_OLD_UUID));
 
-        Flash::success('Company deleted successfully.');
+        Flash::success('Company unblocked successfully.');
 
         return redirect(route('companies.index'));
     }

@@ -6,19 +6,12 @@
 
 <!-- Legalname Field -->
 <div class="form-group">
-    {!! Form::label('legalName', 'Legalname:') !!}
-    <p>{!! $company->legalName !!}</p>
+    {!! Form::label('legalName', 'Legal Name:') !!}
+    <p>{!! $company->profile['legalName'] !!}</p>
 </div>
 
-<!-- Created At Field -->
+<!-- Company Type Field -->
 <div class="form-group">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{!! $company->created_at !!}</p>
+    {!! Form::label('companyType', 'Company Type:') !!}
+    <p>{!! $company->companyType['names']['values']['en'] . ' / ' . $company->companyType['names']['values']['ru'] !!}</p>
 </div>
-
-<!-- Updated At Field -->
-<div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{!! $company->updated_at !!}</p>
-</div>
-
