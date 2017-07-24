@@ -44,23 +44,6 @@ class CompanyAPIController extends AppBaseController
     }
 
     /**
-     * Store a newly created Company in storage.
-     * POST /companies
-     *
-     * @param CreateCompanyAPIRequest $request
-     *
-     * @return Response
-     */
-    public function store(CreateCompanyAPIRequest $request)
-    {
-        $input = $request->all();
-
-        $companies = $this->companyRepository->create($input);
-
-        return $this->sendResponse($companies->toArray(), 'Company saved successfully');
-    }
-
-    /**
      * Display the specified Company.
      * GET|HEAD /companies/{id}
      *
@@ -78,31 +61,6 @@ class CompanyAPIController extends AppBaseController
         }
 
         return $this->sendResponse($company->toArray(), 'Company retrieved successfully');
-    }
-
-    /**
-     * Update the specified Company in storage.
-     * PUT/PATCH /companies/{id}
-     *
-     * @param  int $id
-     * @param UpdateCompanyAPIRequest $request
-     *
-     * @return Response
-     */
-    public function update($id, UpdateCompanyAPIRequest $request)
-    {
-        $input = $request->all();
-
-        /** @var Company $company */
-        $company = $this->companyRepository->findWithoutFail($id);
-
-        if (empty($company)) {
-            return $this->sendError('Company not found');
-        }
-
-        $company = $this->companyRepository->update($input, $id);
-
-        return $this->sendResponse($company->toArray(), 'Company updated successfully');
     }
 
     /**

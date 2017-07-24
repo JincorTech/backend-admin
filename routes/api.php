@@ -22,10 +22,6 @@ Route::resource('companies', 'CompanyAPIController');
 
 Route::resource('company_types', 'CompanyTypeAPIController');
 
-
-
-
-
 Route::resource('currencies', 'CurrencyAPIController');
 
 Route::resource('economical_activity_types', 'EconomicalActivityTypeAPIController');

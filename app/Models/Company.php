@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model;
-use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+use MongoDB\BSON\Binary;
 
 /**
  * Class Company
@@ -12,37 +12,24 @@ use Jenssegers\Mongodb\Eloquent\SoftDeletes;
  */
 class Company extends Model
 {
-    use SoftDeletes;
+    protected $collection = 'companies';
 
-    public $table = 'companies';
-    
-
-    protected $dates = ['deleted_at'];
+    protected $fillable = [
+        'blocked'
+    ];
 
     public function profile()
     {
         return $this->embedsOne(Profile::class);
     }
 
-    public $fillable = [
-        'legalName'
-    ];
+    public function isBlocked()
+    {
+        return $this->blocked;
+    }
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'legalName' => 'string'
-    ];
-
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'profile.legalName' => 'required',
-    ];
+    public function getCompanyTypeAttribute($value)
+    {
+        return CompanyType::find(new Binary($this->profile['companyType']['$id'], Binary::TYPE_OLD_UUID));
+    }
 }
