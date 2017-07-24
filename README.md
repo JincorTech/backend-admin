@@ -21,8 +21,10 @@ Jincor Administration is service implemented for internal Jincor usage.
 1. Clone this repo. Install dependencies via "composer install".
 2. cp .env.example .env. Configure environment accordingly to your local setup. Configure database which you use for "Company backend service" (or clone it).
 3. run "php artisan key:generate".
-4. run "php artisan serve".
-5. Open localhost:8000. Register new user. Login.
+4. run "php artisan vendor:publish --tag=datatables --force"
+5. run "php artisan vendor:publish --tag=datatables-buttons --force"
+6. run "php artisan serve".
+7. Open localhost:8000. Register new user. Login.
 
 ##### Additional info:
 

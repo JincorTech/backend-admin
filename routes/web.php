@@ -43,3 +43,9 @@ Route::resource('currencies', 'CurrencyController');
 Route::resource('economicalActivityTypes', 'EconomicalActivityTypeController');
 
 Route::resource('countries', 'CountryController');
+
+Route::resource('mailingListItems', 'MailingListItemController', [
+    'except' => [
+        'update'
+    ],
+]);

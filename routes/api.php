@@ -18,7 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::resource('companies', 'CompanyAPIController');
+Route::resource('companies', 'CompanyAPIController', [
+    'only' => [
+        'index',
+        'show',
+    ],
+]);
 
 Route::resource('company_types', 'CompanyTypeAPIController');
 
@@ -27,3 +32,10 @@ Route::resource('currencies', 'CurrencyAPIController');
 Route::resource('economical_activity_types', 'EconomicalActivityTypeAPIController');
 
 Route::resource('countries', 'CountryAPIController');
+
+
+Route::resource('mailing_list_items', 'MailingListItemAPIController', [
+    'except' => [
+        'update'
+    ],
+]);

@@ -166,6 +166,8 @@ return [
         /*
          * Package Service Providers...
          */
+        Yajra\Datatables\ButtonsServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,

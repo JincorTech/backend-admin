@@ -6,8 +6,6 @@
     <a href="{!! route('companyTypes.index') !!}"><i class="fa fa-edit"></i><span>Company Types</span></a>
 </li>
 
-
-
 <li class="{{ Request::is('currencies*') ? 'active' : '' }}">
     <a href="{!! route('currencies.index') !!}"><i class="fa fa-edit"></i><span>Currencies</span></a>
 </li>
@@ -20,3 +18,6 @@
     <a href="{!! route('countries.index') !!}"><i class="fa fa-edit"></i><span>Countries</span></a>
 </li>
 
+<li class="{{ Request::is('mailingListItems*') ? 'active' : '' }}">
+    <a href="{!! route('mailingListItems.index') !!}"><i class="fa fa-edit"></i><span>Mailing List</span></a>
+</li>
