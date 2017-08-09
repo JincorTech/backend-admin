@@ -22,6 +22,7 @@ Jincor Administration is service implemented for internal Jincor usage.
 1. Build docker containers: docker-compose build --no-cache.
 1. Run containers: docker-compose up -d
 1. Init workspace: docker-compose exec workspace ./init.sh
+1. Create admin user: docker-compose exec workspace php artisan db:seed --class=AdminSeeder. Save a password.
 1. Start development server: docker-compose exec workspace ./start.sh
 
 ##### Additional info:
