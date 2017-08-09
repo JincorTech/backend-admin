@@ -36,6 +36,11 @@ Route::post('companies/unblock/{id}', [
     'uses' => 'CompanyController@unblock',
 ]);
 
+Route::get('/dashboard', [
+    'as' => 'dashboard.index',
+    'uses' => 'DashboardController@index',
+]);
+
 Route::resource('companyTypes', 'CompanyTypeController');
 
 Route::resource('currencies', 'CurrencyController');
