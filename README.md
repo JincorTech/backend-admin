@@ -18,13 +18,11 @@ Jincor Administration is service implemented for internal Jincor usage.
 
 ##### How to install and test:
 
-1. Clone this repo. Install dependencies via "composer install".
-2. cp .env.example .env. Configure environment accordingly to your local setup. Configure database which you use for "Company backend service" (or clone it).
-3. run "php artisan key:generate".
-4. run "php artisan vendor:publish --tag=datatables --force"
-5. run "php artisan vendor:publish --tag=datatables-buttons --force"
-6. run "php artisan serve".
-7. Open localhost:8000. Register new user. Login.
+1. Clone this repo.
+1. Build docker containers: docker-compose build --no-cache.
+1. Run containers: docker-compose up -d
+1. Init workspace: docker-compose exec workspace ./init.sh
+1. Start development server: docker-compose exec workspace ./start.sh
 
 ##### Additional info:
 
