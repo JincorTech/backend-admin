@@ -1,0 +1,27 @@
+version: '2'
+services:
+
+  workspace:
+    build:
+      context: ./
+      args:
+        - TZ=UTC
+        - INSTALL_XDEBUG=true
+      dockerfile: workspace.docker
+    tty: true
+    links:
+      - mongo
+    volumes_from:
+      - src
+    ports:
+     - 8000:8000
+
+  mongo:
+    image: registry.jincor.com/backend/mongodb:latest
+    volumes:
+      - ./storage/mongodb:/data/db
+
+  src:
+    image: tianon/true
+    volumes:
+      - ./:/var/www/jincor_admin
