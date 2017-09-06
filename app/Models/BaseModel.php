@@ -23,4 +23,9 @@ class BaseModel extends Model
         $model->_id = new Binary(Uuid::uuid4(), Binary::TYPE_OLD_UUID);
         return $model;
     }
+
+    public function getStringId()
+    {
+
+    }
 }

@@ -54,3 +54,8 @@ Route::resource('mailingListItems', 'MailingListItemController', [
         'update'
     ],
 ]);
+
+
+Route::resource('departments', 'DepartmentController');
+
+Route::resource('employees', 'EmployeeController');

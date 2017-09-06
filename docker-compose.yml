@@ -14,14 +14,33 @@ services:
     volumes_from:
       - src
     ports:
-     - 8000:8000
+      - 8000:8000
+    environment:
+      - PHP_IDE_CONFIG="serverName=companies"
+    networks:
+      default:
+        ipv4_address: 10.10.0.4
 
   mongo:
     image: registry.jincor.com/backend/mongodb:latest
     volumes:
       - ./storage/mongodb:/data/db
+    networks:
+      default:
+        ipv4_address: 10.10.0.2
 
   src:
     image: tianon/true
     volumes:
       - ./:/var/www/jincor_admin
+    networks:
+      default:
+        ipv4_address: 10.10.0.3
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.0.0/16
+          gateway: 10.10.0.1

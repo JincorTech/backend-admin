@@ -28,6 +28,14 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN echo "xdebug.remote_autostart=1" >> /etc/php/7.0/cli/php.ini
+RUN echo "xdebug.idekey=PHPSTORM" >> /etc/php/7.0/cli/php.ini
+RUN echo "xdebug.extended_info=1" >> /etc/php/7.0/cli/php.ini
+RUN echo "xdebug.remote_enable=1" >> /etc/php/7.0/cli/php.ini
+RUN echo "xdebug.remote_mode=req" >> /etc/php/7.0/cli/php.ini
+RUN echo "xdebug.remote_port=9000" >> /etc/php/7.0/cli/php.ini
+RUN echo "xdebug.remote_host=10.10.0.1" >> /etc/php/7.0/cli/php.ini
+
 VOLUME /var/www/jincor_admin
 
 # Set default work directory
