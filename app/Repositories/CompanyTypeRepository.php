@@ -24,4 +24,29 @@ class CompanyTypeRepository extends BaseRepository
         return CompanyType::class;
     }
 
+    public function getCompanyTypeStat()
+    {
+        $companyTypesCursor = CompanyType::raw()->aggregate([
+            [
+                '$lookup' => [
+                    'from' => 'companies',
+                    'localField' => '_id',
+                    'foreignField' => 'companyTypeId',
+                    'as' => 'companies',
+                ],
+            ],
+        ]);
+
+        $labels = [];
+        $counts = [];
+        foreach ($companyTypesCursor as $item) {
+            $labels[] = $item['names']['values']['en'];
+            $counts[] = count($item['companies']);
+        }
+
+        return [
+            'labels' => $labels,
+            'data' => $counts,
+        ];
+    }
 }

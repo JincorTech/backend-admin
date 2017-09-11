@@ -18,11 +18,6 @@ class Company extends Model
         'blocked'
     ];
 
-    public function profile()
-    {
-        return $this->embedsOne(Profile::class);
-    }
-
     public function isBlocked()
     {
         return $this->blocked;

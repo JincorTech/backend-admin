@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Employee;
 use Form;
 use Yajra\Datatables\Services\DataTable;
+use Yajra\Datatables\Facades\Datatables;
 
 class EmployeeDataTable extends DataTable
 {
@@ -14,8 +15,7 @@ class EmployeeDataTable extends DataTable
      */
     public function ajax()
     {
-        return $this->datatables
-            ->eloquent($this->query())
+        return Datatables::of(Employee::query()->get())
             ->addColumn('action', 'employees.datatables_actions')
             ->make(true);
     }
@@ -65,14 +65,15 @@ class EmployeeDataTable extends DataTable
     }
 
     /**
-     * Get columns.
+     * Get columns
      *
      * @return array
      */
     private function getColumns()
     {
         return [
-            'password' => ['name' => 'password', 'data' => 'password']
+            'name' => ['name' => 'name', 'data' => 'name'],
+            'company' => ['name' => 'company', 'data' => 'company'],
         ];
     }
 

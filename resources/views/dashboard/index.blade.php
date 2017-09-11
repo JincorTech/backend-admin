@@ -2,65 +2,6 @@
 
 @push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            var ctx = document.getElementById("myChart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'horizontalBar',
-                data: {
-                    labels: {!! json_encode($labels) !!},
-                    datasets: [{
-                        label: 'Company types',
-                        data: {!! json_encode($data) !!},
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    scales: {
-                        yAxes: [{
-                            gridLines: {
-                                display: true,
-                                color: "rgba(255,99,132,0.2)"
-                            },
-                            barPercentage: 1.0,
-                            categoryPercentage: 0.8
-                        }],
-                        xAxes: [{
-                            gridLines: {
-                                display: false
-                            },
-                            ticks: {
-                                beginAtZero: true,
-                                userCallback: function(label, index, labels) {
-                                // when the floored value is the same as the value we have a whole number
-                                if (Math.floor(label) === label) {
-                                    return label;
-                                }
-                              }
-                            }
-                        }]
-                    }
-                }
-            });
-        });
-    </script>
     <script src="/js/activities.js"></script>
 @endpush
 
@@ -82,7 +23,7 @@
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>{!! $counter !!}</h3>
+                        <h3>{!! $companyCount !!}</h3>
 
                         <p>Total Companies Count</p>
                     </div>
@@ -91,10 +32,48 @@
                     </div>
                 </div>
             </div>
-            <div class="clearfix"></div>
-            <div style="width:100%;height:25vw;margin: auto">
-                <canvas id="myChart"></canvas>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>{!! $employeeCount !!}</h3>
+
+                        <p>Total Employees Count</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-stalker"></i>
+                    </div>
+                </div>
             </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>{!! $employeeRegistrations !!}</h3>
+
+                        <p>New employees in last 24 hours</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                </div>
+            </div>
+            @include('layouts.chartjs', [
+                'id' => 'companyTypesStat',
+                'title' => 'Company types',
+                'labels' => $companyTypeCountStat['labels'],
+                'data' => $companyTypeCountStat['data'],
+            ])
+            @include('layouts.chartjs', [
+                'id' => 'countriesStat',
+                'title' => 'Countries',
+                'labels' => $countryCountStat['labels'],
+                'data' => $countryCountStat['data'],
+            ])
+            @include('layouts.chartjs', [
+                'id' => 'employeeCountStat',
+                'title' => 'Employee Count',
+                'labels' => $employeeCountStat['labels'],
+                'data' => $employeeCountStat['data'],
+            ])
             <div style="display:block;">
             {!!
             $repo->childrenHierarchy(

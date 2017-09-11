@@ -10,18 +10,37 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\EconomicalActivityTypeRepository;
+use App\Repositories\CompanyRepository;
 use Illuminate\Http\Request;
-use App\Models\CompanyType;
 use App\Models\Company;
+use App\Models\Employee;
 use MongoDB\BSON\Binary;
 use App\Models\EconomicalActivityType;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use App;
-use App\Repositories\DepartmentRepository;
-use App\Models\Department;
+use App\Repositories\CompanyTypeRepository;
 
 class DashboardController
 {
+    /**
+     * @var CompanyRepository
+     */
+    private $companyRepository;
+
+    /**
+     * @var CompanyTypeRepository
+     */
+    private $companyTypeRepository;
+
+    public function __construct(
+        CompanyRepository $companyRepository,
+        CompanyTypeRepository $companyTypeRepository
+    )
+    {
+        $this->companyRepository = $companyRepository;
+        $this->companyTypeRepository = $companyTypeRepository;
+    }
+
     /**
      * Display a listing of the EconomicalActivityType.
      *
@@ -30,34 +49,13 @@ class DashboardController
      */
     public function index(Request $request)
     {
-        $companyTypesCursor = CompanyType::raw()->aggregate([
-            [
-                '$lookup' => [
-                    'from' => 'companies',
-                    'localField' => '_id',
-                    'foreignField' => 'companyTypeID',
-                    'as' => 'companies',
-                ],
-            ],
-        ]);
-
-        $labels = [];
-        $counts = [];
-        foreach ($companyTypesCursor as $item) {
-            $labels[] = $item['names']['values']['en'];
-            $counts[] = count($item['companies']);
-        }
-
         /**
          * @var $repo EconomicalActivityTypeRepository
          */
         $repo = App::make(DocumentManager::class)->getRepository(EconomicalActivityType::class);
-        $parentId = 'fe358a2e-4247-45db-8932-c8d00c8616d4';
-        $parent = $repo->find($parentId);
         $tree = $repo->getTree();
 
-
-        $results = [];
+        $economicalActivityCounts = [];
         foreach ($tree as $node) {
             $economicalActivityTypesCursor = Company::raw()->aggregate([
                 [
@@ -65,7 +63,7 @@ class DashboardController
                         'haveType' => [
                             '$in' => [
                                 new Binary($node->getId(), Binary::TYPE_OLD_UUID),
-                                '$economicalActivityTypesIDs',
+                                '$economicalActivityTypesIds',
                             ],
                         ],
                     ],
@@ -90,56 +88,33 @@ class DashboardController
 
             if ($tempCount > 0) {
                 while ($parent = $copy->getParent()) {
-                    if (isset($results[$parent->getId()])) {
-                        $results[$parent->getId()] += $tempCount;
+                    if (isset($economicalActivityCounts[$parent->getId()])) {
+                        $economicalActivityCounts[$parent->getId()] += $tempCount;
                     } else {
-                        $results[$parent->getId()] = $tempCount;
+                        $economicalActivityCounts[$parent->getId()] = $tempCount;
                     }
                     $copy = $parent;
                 }
             }
 
-            $results[$node->getId()] = $tempCount;
+            $economicalActivityCounts[$node->getId()] = $tempCount;
         }
 
-        $employeeCountCursor = Company::raw()->aggregate([
-            [
-                '$lookup' => [
-                    'from' => 'departments',
-                    'localField' => '_id',
-                    'foreignField' => 'companyID',
-                    'as' => 'departments',
-                ],
-            ],
-            ['$unwind' => '$departments'],
-            [
-                '$lookup' => [
-                    'from' => 'employees',
-                    'localField' => 'departments._id',
-                    'foreignField' => 'departmentID',
-                    'as' => 'employees',
-                ],
-            ],
-            [
-                '$project' => [
-                    'profile.legalName' => true,
-                    'employeesCount' => [
-                        '$size' => '$employees',
-                    ],
-                ],
-            ],
-        ]);
+        $companyTypeCountStat = $this->companyTypeRepository->getCompanyTypeStat();
 
-        foreach ($employeeCountCursor as $company) {
-            $company;
-        }
+        $countryStat = $this->companyRepository->getCountryCountStat();
+
+        $employeeCountStat = $this->companyRepository->getEmployeeCountStat();
 
         return view('dashboard.index')->with([
-            'counter' => Company::count(),
-            'labels' => $labels,
-            'data' => $counts,
+            'companyCount' => Company::count(),
+            'employeeCount' => Employee::count(),
+            'employeeRegistrations' => Employee::where('registeredAt', '>', new \DateTime('-1 day'))->count(),
+            'companyTypeCountStat' => $companyTypeCountStat,
+            'countryCountStat' => $countryStat,
+            'employeeCountStat' => $employeeCountStat,
             'repo' => $repo,
-            'economicalCounts' => $results,
+            'economicalCounts' => $economicalActivityCounts,
         ]);
     }
 }

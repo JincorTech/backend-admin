@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Company;
 
 /**
  * Class Department
@@ -11,4 +11,9 @@ namespace App\Models;
 class Department extends BaseModel
 {
     protected $collection = 'departments';
+
+    public function getCompany()
+    {
+        return $this->belongsTo(Company::class, 'companyId', '_id');
+    }
 }

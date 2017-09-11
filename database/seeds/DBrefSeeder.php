@@ -24,10 +24,13 @@ class DBrefSeeder extends Seeder
 
         foreach ($companies as $company) {
             $companyType = $this->getRandomCompanyType();
-            $company->companyTypeID = $companyType->id;
+            $company->companyTypeId = $companyType->id;
+            $profile = $company->profile;
+            $profile['address']['countryId'] = $profile['address']['country']['$id'];
+            $company->profile = $profile;
 
             $activityType = $this->getRandomActivityType();
-            $company->economicalActivityTypesIDs = [
+            $company->economicalActivityTypesIds = [
                 new Binary($activityType->getId(), Binary::TYPE_OLD_UUID),
             ];
             $company->save();
@@ -37,7 +40,7 @@ class DBrefSeeder extends Seeder
         $departments = $departmentsRepository->all();
 
         foreach ($departments as $department) {
-            $department->companyID = $department->company['$id'];
+            $department->companyId = $department->company['$id'];
             $department->save();
         }
 
@@ -46,7 +49,7 @@ class DBrefSeeder extends Seeder
 
         foreach ($employees as $employee) {
             $dep = $this->getRandomDepartment();
-            $employee->departmentID = $dep->_id;
+            $employee->departmentId = $dep->_id;
             $employee->save();
         }
     }
