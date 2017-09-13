@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-use App\Models\Company;
 
 /**
  * Class Department
@@ -15,5 +14,12 @@ class Department extends BaseModel
     public function getCompany()
     {
         return $this->belongsTo(Company::class, 'companyId', '_id');
+    }
+
+    public function toArray()
+    {
+        $result = parent::toArray();
+        $result['company'] = $this->getCompany->profile['legalName'];
+        return $result;
     }
 }

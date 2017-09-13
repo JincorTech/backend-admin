@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Department;
 use Form;
+use Pimlie\DatatablesMongodb\Facades\DatatablesMongodb as Datatables;
 use Yajra\Datatables\Services\DataTable;
 
 class DepartmentDataTable extends DataTable
@@ -14,8 +15,7 @@ class DepartmentDataTable extends DataTable
      */
     public function ajax()
     {
-        return $this->datatables
-            ->eloquent($this->query())
+        return Datatables::moloquent(Department::query())
             ->addColumn('action', 'departments.datatables_actions')
             ->make(true);
     }
@@ -72,7 +72,8 @@ class DepartmentDataTable extends DataTable
     private function getColumns()
     {
         return [
-            'name' => ['name' => 'name', 'data' => 'name']
+            'name' => ['name' => 'name', 'data' => 'name'],
+            'company' => ['name' => 'company', 'data' => 'company'],
         ];
     }
 

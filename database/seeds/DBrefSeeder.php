@@ -9,6 +9,7 @@ use App\Models\CompanyType;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\EmployeeRepository;
 use App\Models\Department;
+use App\Models\Country;
 
 class DBrefSeeder extends Seeder
 {
@@ -26,7 +27,8 @@ class DBrefSeeder extends Seeder
             $companyType = $this->getRandomCompanyType();
             $company->companyTypeId = $companyType->id;
             $profile = $company->profile;
-            $profile['address']['countryId'] = $profile['address']['country']['$id'];
+            $country = $this->getRandomCountry();
+            $profile['address']['countryId'] = $country->id;
             $company->profile = $profile;
 
             $activityType = $this->getRandomActivityType();
@@ -76,5 +78,10 @@ class DBrefSeeder extends Seeder
     public function getRandomDepartment()
     {
         return Department::limit(-1)->skip(rand(0, Department::count() - 1))->first();
+    }
+
+    public function getRandomCountry()
+    {
+        return Country::limit(-1)->skip(rand(0, Country::count() - 1))->first();
     }
 }

@@ -22,7 +22,6 @@ class Employee extends BaseModel
     {
         $result = parent::toArray();
         $company = $this->department->getCompany;
-        $result['name'] = $this->profile['firstName'] . ' ' . $this->profile['lastName'];
         $result['company'] = $company->profile['legalName'];
         return $result;
     }

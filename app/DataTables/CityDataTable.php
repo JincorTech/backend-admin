@@ -2,12 +2,12 @@
 
 namespace App\DataTables;
 
-use App\Models\Employee;
+use App\Models\City;
 use Form;
 use Yajra\Datatables\Services\DataTable;
 use Pimlie\DatatablesMongodb\Facades\DatatablesMongodb as Datatables;
 
-class EmployeeDataTable extends DataTable
+class CityDataTable extends DataTable
 {
 
     /**
@@ -15,8 +15,8 @@ class EmployeeDataTable extends DataTable
      */
     public function ajax()
     {
-        return Datatables::moloquent(Employee::query())
-            ->addColumn('action', 'employees.datatables_actions')
+        return Datatables::moloquent($this->query())
+            ->addColumn('action', 'cities.datatables_actions')
             ->make(true);
     }
 
@@ -27,9 +27,9 @@ class EmployeeDataTable extends DataTable
      */
     public function query()
     {
-        $employees = Employee::query();
+        $cities = City::query();
 
-        return $this->applyScopes($employees);
+        return $this->applyScopes($cities);
     }
 
     /**
@@ -65,16 +65,16 @@ class EmployeeDataTable extends DataTable
     }
 
     /**
-     * Get columns
+     * Get columns.
      *
      * @return array
      */
     private function getColumns()
     {
         return [
-            'First Name' => ['name' => 'profile.firstName', 'data' => 'profile.firstName'],
-            'Last Name' => ['name' => 'profile.lastName', 'data' => 'profile.lastName'],
-            'Company' => ['name' => 'company', 'data' => 'company'],
+            'Russian Name' => ['name' => 'names.values.ru', 'data' => 'names.values.ru'],
+            'English Name' => ['name' => 'names.values.en', 'data' => 'names.values.en'],
+            'Country' => ['name' => 'country.names.en', 'data' => 'country.names.en'],
         ];
     }
 
@@ -85,6 +85,6 @@ class EmployeeDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'employees';
+        return 'cities';
     }
 }

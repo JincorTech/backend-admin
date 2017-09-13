@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\EconomicalActivityType;
+use App\Models\City;
 
-class UpdateEconomicalActivityTypeRequest extends FormRequest
+class CreateCityRequest extends FormRequest
 {
     use AuthorizedRequest;
 
@@ -16,6 +16,6 @@ class UpdateEconomicalActivityTypeRequest extends FormRequest
      */
     public function rules()
     {
-        return EconomicalActivityType::$rules;
+        return City::$rules;
     }
 }

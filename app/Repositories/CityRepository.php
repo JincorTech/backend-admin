@@ -2,18 +2,18 @@
 
 namespace App\Repositories;
 
-use App\Models\CompanyType;
+use App\Models\City;
 use InfyOm\Generator\Common\BaseRepository;
 
-class CompanyTypeRepository extends BaseRepository
+class CityRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'code',
-        'nameEn',
-        'nameRu'
+        'name_ru',
+        'name_en',
+        'country'
     ];
 
     /**
@@ -21,7 +21,6 @@ class CompanyTypeRepository extends BaseRepository
      **/
     public function model()
     {
-        return CompanyType::class;
+        return City::class;
     }
-
 }

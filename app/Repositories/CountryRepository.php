@@ -15,4 +15,15 @@ class CountryRepository extends BaseRepository
         return Country::class;
     }
 
+    public function allForDropDown()
+    {
+        $countries = Country::all();
+
+        $result = [];
+        foreach ($countries as $country) {
+            $result[$country->_id->getData()] = $country->names['en'] . ' / ' . $country->names['ru'];
+        }
+
+        return $result;
+    }
 }

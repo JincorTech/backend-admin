@@ -9,36 +9,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\EconomicalActivityTypeRepository;
-use App\Repositories\CompanyRepository;
-use Illuminate\Http\Request;
-use App\Models\Company;
-use App\Models\Employee;
-use MongoDB\BSON\Binary;
-use App\Models\EconomicalActivityType;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use App\Models\EconomicalActivityType;
 use App;
-use App\Repositories\CompanyTypeRepository;
+use App\Repositories\StatisticsRepository;
+use Illuminate\Http\Request;
 
-class DashboardController
+class DashboardController extends AppBaseController
 {
     /**
-     * @var CompanyRepository
+     * @var StatisticsRepository
      */
-    private $companyRepository;
-
-    /**
-     * @var CompanyTypeRepository
-     */
-    private $companyTypeRepository;
+    private $statisticsRepository;
 
     public function __construct(
-        CompanyRepository $companyRepository,
-        CompanyTypeRepository $companyTypeRepository
+        StatisticsRepository $statisticsRepository
     )
     {
-        $this->companyRepository = $companyRepository;
-        $this->companyTypeRepository = $companyTypeRepository;
+        $this->statisticsRepository = $statisticsRepository;
     }
 
     /**
@@ -49,72 +37,15 @@ class DashboardController
      */
     public function index(Request $request)
     {
-        /**
-         * @var $repo EconomicalActivityTypeRepository
-         */
-        $repo = App::make(DocumentManager::class)->getRepository(EconomicalActivityType::class);
-        $tree = $repo->getTree();
-
-        $economicalActivityCounts = [];
-        foreach ($tree as $node) {
-            $economicalActivityTypesCursor = Company::raw()->aggregate([
-                [
-                    '$project' => [
-                        'haveType' => [
-                            '$in' => [
-                                new Binary($node->getId(), Binary::TYPE_OLD_UUID),
-                                '$economicalActivityTypesIds',
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    '$match' => [
-                        'haveType' => true,
-                    ],
-                ],
-                [
-                    '$count' => 'count',
-                ],
-            ]);
-            $compCount = $economicalActivityTypesCursor->toArray();
-
-            $tempCount = 0;
-            if (count($compCount) > 0) {
-                $tempCount = (int)$compCount[0]['count'];
-            }
-
-            $copy = $node;
-
-            if ($tempCount > 0) {
-                while ($parent = $copy->getParent()) {
-                    if (isset($economicalActivityCounts[$parent->getId()])) {
-                        $economicalActivityCounts[$parent->getId()] += $tempCount;
-                    } else {
-                        $economicalActivityCounts[$parent->getId()] = $tempCount;
-                    }
-                    $copy = $parent;
-                }
-            }
-
-            $economicalActivityCounts[$node->getId()] = $tempCount;
-        }
-
-        $companyTypeCountStat = $this->companyTypeRepository->getCompanyTypeStat();
-
-        $countryStat = $this->companyRepository->getCountryCountStat();
-
-        $employeeCountStat = $this->companyRepository->getEmployeeCountStat();
-
         return view('dashboard.index')->with([
-            'companyCount' => Company::count(),
-            'employeeCount' => Employee::count(),
-            'employeeRegistrations' => Employee::where('registeredAt', '>', new \DateTime('-1 day'))->count(),
-            'companyTypeCountStat' => $companyTypeCountStat,
-            'countryCountStat' => $countryStat,
-            'employeeCountStat' => $employeeCountStat,
-            'repo' => $repo,
-            'economicalCounts' => $economicalActivityCounts,
+            'companyCount' => $this->statisticsRepository->totalCompaniesCount(),
+            'employeeCount' => $this->statisticsRepository->totalEmployeesCount(),
+            'employeeRegistrations' => $this->statisticsRepository->last24hoursEmployeeRegistrationsCount(),
+            'companyTypeCountStat' => $this->statisticsRepository->getCompanyCountByType(),
+            'countryCountStat' => $this->statisticsRepository->getCompanyCountByCountry(),
+            'employeeCountStat' => $this->statisticsRepository->getCompanyCountByEmployeeCount(),
+            'economicalActivitiesRepo' => App::make(DocumentManager::class)->getRepository(EconomicalActivityType::class),
+            'economicalCounts' => $this->statisticsRepository->getCompanyCountByEconomicalActivities(),
         ]);
     }
 }

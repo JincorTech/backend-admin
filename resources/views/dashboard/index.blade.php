@@ -74,9 +74,9 @@
                 'labels' => $employeeCountStat['labels'],
                 'data' => $employeeCountStat['data'],
             ])
-            <div style="display:block;">
+            <div>
             {!!
-            $repo->childrenHierarchy(
+            $economicalActivitiesRepo->childrenHierarchy(
                 null, /* starting from root nodes */
                 false, /* false: load all children, true: only direct */
                 [
