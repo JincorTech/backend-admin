@@ -5,7 +5,7 @@ namespace App\DataTables;
 use App\Models\MailingListItem;
 use Form;
 use Yajra\Datatables\Services\DataTable;
-use Yajra\Datatables\Facades\Datatables;
+use Pimlie\DatatablesMongodb\Facades\DatatablesMongodb as Datatables;
 
 class MailingListItemDataTable extends DataTable
 {
@@ -15,7 +15,7 @@ class MailingListItemDataTable extends DataTable
      */
     public function ajax()
     {
-        return Datatables::of(MailingListItem::query()->get())
+        return Datatables::moloquent(MailingListItem::query())
                 ->addColumn('action', 'mailing_list_items.datatables_actions')
                 ->make(true);
     }

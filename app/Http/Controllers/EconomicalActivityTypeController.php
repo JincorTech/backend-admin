@@ -6,14 +6,11 @@ use App\Http\Requests\CreateEconomicalActivityTypeRequest;
 use App\Http\Requests\UpdateEconomicalActivityTypeRequest;
 use App\Repositories\EconomicalActivityTypeRepository;
 use App\Models\EconomicalActivityType;
-use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use App;
-use Illuminate\Support\Facades\Log;
 
 class EconomicalActivityTypeController extends AppBaseController
 {

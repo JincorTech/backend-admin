@@ -12,40 +12,64 @@
 */
 
 Route::get('/', function () {
-  return redirect('home');
+    return redirect('home');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::group(['middleware' => 'auth'], function () {
 
-Route::resource('companies', 'CompanyController', [
-    'only' => [
-        'index',
-        'show',
-    ],
-]);
+    Route::get('/home', 'HomeController@index');
 
-Route::post('companies/block/{id}', [
-    'as' => 'companies.block',
-    'uses' => 'CompanyController@block',
-]);
+    Route::resource('companies', 'CompanyController', [
+        'only' => [
+            'index',
+            'show',
+        ],
+    ]);
 
-Route::post('companies/unblock/{id}', [
-    'as' => 'companies.unblock',
-    'uses' => 'CompanyController@unblock',
-]);
+    Route::post('companies/block/{id}', [
+        'as' => 'companies.block',
+        'uses' => 'CompanyController@block',
+    ]);
 
-Route::resource('companyTypes', 'CompanyTypeController');
+    Route::post('companies/unblock/{id}', [
+        'as' => 'companies.unblock',
+        'uses' => 'CompanyController@unblock',
+    ]);
 
-Route::resource('currencies', 'CurrencyController');
+    Route::get('/dashboard', [
+        'as' => 'dashboard.index',
+        'uses' => 'DashboardController@index',
+    ]);
 
-Route::resource('economicalActivityTypes', 'EconomicalActivityTypeController');
+    Route::resource('companyTypes', 'CompanyTypeController');
 
-Route::resource('countries', 'CountryController');
+    Route::resource('currencies', 'CurrencyController');
 
-Route::resource('mailingListItems', 'MailingListItemController', [
-    'except' => [
-        'update'
-    ],
-]);
+    Route::resource('economicalActivityTypes', 'EconomicalActivityTypeController');
+
+    Route::resource('countries', 'CountryController');
+
+    Route::resource('mailingListItems', 'MailingListItemController', [
+        'except' => [
+            'update'
+        ],
+    ]);
+
+    Route::resource('departments', 'DepartmentController', [
+        'only' => [
+            'index',
+            'show',
+        ],
+    ]);
+
+    Route::resource('employees', 'EmployeeController', [
+        'only' => [
+            'index',
+            'show',
+        ],
+    ]);
+
+    Route::resource('cities', 'CityController');
+});
