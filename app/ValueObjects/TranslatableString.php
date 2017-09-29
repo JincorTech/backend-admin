@@ -100,6 +100,4 @@ class TranslatableString implements TranslatableContentInterface, ArrayAccess
             unset($this->values[$offset]);
         }
     }
-
-
 }
