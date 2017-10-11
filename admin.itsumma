@@ -1,0 +1,22 @@
+FROM laradock/php-fpm:7.0--1.2
+
+MAINTAINER Andrey Degtyaruk <hlogeon1@gmail.com>
+
+USER jincor-admin
+
+ADD ./config/php-fpm/laravel.ini /usr/local/etc/php/conf.d
+ADD ./config/php-fpm/laravel.pool.conf /usr/local/etc/php-fpm.d/
+
+USER root
+RUN pecl install mongodb-1.2.9 && \
+    docker-php-ext-enable mongodb
+
+RUN rm -r /var/lib/apt/lists/*
+
+RUN usermod -u 1001 www-data
+
+WORKDIR /var/www/jincor-admin
+USER root
+CMD ["php-fpm"]
+
+EXPOSE 9000
