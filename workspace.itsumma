@@ -1,7 +1,7 @@
 FROM laradock/workspace:latest
 
-RUN groupadd -g 1000 jincor_admin && \
-    useradd -u 1000 -g jincor_admin -m jincor_admin
+RUN groupadd -g 1002 jincor_admin && \
+    useradd -u 1001 -g jincor_admin -m jincor_admin
 
 ARG TZ=UTC
 ENV TZ ${TZ}
