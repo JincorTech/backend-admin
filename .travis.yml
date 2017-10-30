@@ -3,7 +3,7 @@ services:
 - docker
 before_install:
 - chmod ugo+x ./build.sh
-- docker-compose -f docker-compose.test.yml build
+- docker-compose -f docker-compose.test.yml build --no-cache
 - cp ./.env.test ./.env
 - docker-compose -f docker-compose.test.yml run --rm workspace composer install
 script:

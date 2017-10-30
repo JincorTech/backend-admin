@@ -2,7 +2,6 @@ version: '2'
 services:
 
   workspace:
-    image: jincort/backend-admin
     build:
       context: ./
       args:
