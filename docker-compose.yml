@@ -11,8 +11,8 @@ services:
     tty: true
     links:
       - mongo
-    volumes_from:
-      - src
+    volumes:
+      - ./:/var/www/jincor_admin
     ports:
       - 8000:8000
     environment:
@@ -28,14 +28,6 @@ services:
     networks:
       default:
         ipv4_address: 10.10.0.2
-
-  src:
-    image: tianon/true
-    volumes:
-      - ./:/var/www/jincor_admin
-    networks:
-      default:
-        ipv4_address: 10.10.0.3
 
 networks:
   default:
