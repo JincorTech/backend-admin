@@ -2,7 +2,7 @@ version: '2'
 services:
 
   mongo:
-    image: registry.jincor.com/backend/mongodb:latest
+    image: jincort/backend-mongodb:production
     volumes:
       - ./storage/mongodb:/data/db
     networks:
@@ -12,9 +12,6 @@ services:
   workspace:
     build:
       context: ./
-      args:
-        - TZ=UTC
-        - INSTALL_XDEBUG=true
       dockerfile: workspace.test
     tty: true
     links:
