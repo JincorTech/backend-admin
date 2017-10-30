@@ -8,7 +8,7 @@ ADD ./config/php-fpm/laravel.ini /usr/local/etc/php/conf.d
 ADD ./config/php-fpm/laravel.pool.conf /usr/local/etc/php-fpm.d/
 
 USER root
-RUN pecl install mongodb-1.2.9 && \
+RUN pecl install mongodb-1.2.11 && \
     docker-php-ext-enable mongodb
 
 RUN rm -r /var/lib/apt/lists/*

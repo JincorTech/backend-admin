@@ -11,7 +11,7 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($currency, ['route' => ['currencies.update', $currency->id], 'method' => 'patch']) !!}
+                   {!! Form::model($currency, ['route' => ['currencies.update', $currency->id->getData()], 'method' => 'patch']) !!}
 
                         @include('currencies.fields')
 

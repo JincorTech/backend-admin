@@ -16,10 +16,10 @@
             <td>{!! $currency->ISOCodes['numericCode'] !!}</td>
             <td>{!! $currency->sign !!}</td>
             <td>
-                {!! Form::open(['route' => ['currencies.destroy', $currency->id], 'method' => 'delete']) !!}
+                {!! Form::open(['route' => ['currencies.destroy', $currency->id->getData()], 'method' => 'delete']) !!}
                 <div class='btn-group'>
-                    <a href="{!! route('currencies.show', [$currency->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{!! route('currencies.edit', [$currency->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
+                    <a href="{!! route('currencies.show', [$currency->id->getData()]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
+                    <a href="{!! route('currencies.edit', [$currency->id->getData()]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
                     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 </div>
                 {!! Form::close() !!}

@@ -25,6 +25,6 @@ class Company extends Model
 
     public function getCompanyTypeAttribute($value)
     {
-        return CompanyType::find(new Binary($this->profile['companyType']['$id'], Binary::TYPE_OLD_UUID));
+        return CompanyType::find(new Binary($this->profile['companyType']['$id']->getData(), Binary::TYPE_OLD_UUID));
     }
 }

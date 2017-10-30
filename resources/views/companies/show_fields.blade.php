@@ -1,7 +1,7 @@
 <!-- Id Field -->
 <div class="form-group">
     {!! Form::label('id', 'Id:') !!}
-    <p>{!! $company->id !!}</p>
+    <p>{!! $company->id->getData() !!}</p>
 </div>
 
 <!-- Legalname Field -->

@@ -63,7 +63,13 @@ class Country extends Model
 
     public function getCurrency()
     {
-        $id = $this->currency;
-        return Currency::find(new Binary($id, Binary::TYPE_OLD_UUID));
+        return Currency::find($this->currency);
+    }
+
+    public function toArray()
+    {
+        $result = parent::toArray();
+        $result['currency'] = $this->currency->getData();
+        return $result;
     }
 }

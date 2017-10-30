@@ -2487,7 +2487,7 @@
             "time": "2017-03-02 00:38:00"
         },
         {
-            "name": "pimlie/laravel-datatables-mongodb",
+            "name": "artemii235/laravel-datatables-mongodb",
             "version": "dev-master",
             "source": {
                 "type": "git",
@@ -3090,7 +3090,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jean-François Simon",
+                    "name": "Jean-Fran?ois Simon",
                     "email": "jeanfrancois.simon@sensiolabs.com"
                 },
                 {
@@ -4202,7 +4202,7 @@
             ],
             "authors": [
                 {
-                    "name": "François Zaninotto"
+                    "name": "Fran?ois Zaninotto"
                 }
             ],
             "description": "Faker is a PHP library that generates fake data for you.",
@@ -4297,7 +4297,7 @@
             ],
             "authors": [
                 {
-                    "name": "Pádraic Brady",
+                    "name": "P?draic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
                 },

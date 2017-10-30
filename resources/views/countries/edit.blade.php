@@ -11,7 +11,7 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($country, ['route' => ['countries.update', $country->id], 'method' => 'patch']) !!}
+                   {!! Form::model($country->toArray(), ['route' => ['countries.update', $country->id->getData()], 'method' => 'patch']) !!}
 
                         @include('countries.fields')
 

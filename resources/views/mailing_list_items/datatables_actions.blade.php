@@ -1,4 +1,4 @@
-{!! Form::open(['route' => ['mailingListItems.destroy', $_id], 'method' => 'delete']) !!}
+{!! Form::open(['route' => ['mailingListItems.destroy', $_id->getData()], 'method' => 'delete']) !!}
 <div class='btn-group'>
     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [
         'type' => 'submit',

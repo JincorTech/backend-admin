@@ -12,10 +12,10 @@
             <td>
                 {!! Form::open(['route' => [
                         $company->isBlocked() ? 'companies.unblock' : 'companies.block',
-                        $company->id
+                        $company->id->getData()
                     ], 'method' => 'post']) !!}
                 <div class='btn-group'>
-                    <a href="{!! route('companies.show', [$company->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
+                    <a href="{!! route('companies.show', [$company->id->getData()]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
                     {!! $company->isBlocked() ?
                         Form::button('<i class="glyphicon glyphicon-ban-circle"></i>', ['type' => 'submit', 'class' => 'btn btn-success btn-xs', 'onclick' => "return confirm('Are you sure you want to unblock this company?')"])
                         :

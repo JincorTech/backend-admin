@@ -1,7 +1,7 @@
 <!-- Id Field -->
 <div class="form-group">
     {!! Form::label('id', 'Id:') !!}
-    <p>{!! $companyType->id !!}</p>
+    <p>{!! $companyType->id->getData() !!}</p>
 </div>
 
 <!-- Code Field -->

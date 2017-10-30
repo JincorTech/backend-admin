@@ -1,7 +1,7 @@
 <!-- Id Field -->
 <div class="form-group">
     {!! Form::label('id', 'Id:') !!}
-    <p>{!! $department->id !!}</p>
+    <p>{!! $department->id->getData() !!}</p>
 </div>
 
 <!-- Name Field -->

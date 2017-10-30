@@ -1,7 +1,7 @@
 <!-- Id Field -->
 <div class="form-group">
     {!! Form::label('id', 'Id:') !!}
-    <p>{!! $country->id !!}</p>
+    <p>{!! $country->id->getData() !!}</p>
 </div>
 
 <!-- Nameen Field -->
