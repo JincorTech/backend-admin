@@ -1,25 +1,6 @@
 version: '2'
 services:
 
-  workspace:
-    build:
-      context: ./
-      args:
-        - TZ=UTC
-        - INSTALL_XDEBUG=true
-      dockerfile: workspace.test
-    links:
-      - mongo
-    depends_on:
-      - mongo
-    volumes:
-      - ./:/var/www/jincor_admin
-    ports:
-      - 8000
-    networks:
-      default:
-        ipv4_address: 10.10.0.4
-
   mongo:
     image: registry.jincor.com/backend/mongodb:latest
     volumes:
@@ -27,6 +8,24 @@ services:
     networks:
       default:
         ipv4_address: 10.10.0.2
+
+  workspace:
+    build:
+      context: ./
+      args:
+        - TZ=UTC
+        - INSTALL_XDEBUG=true
+      dockerfile: workspace.test
+    tty: true
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    volumes:
+      - ./:/var/www/jincor_admin
+    networks:
+      default:
+        ipv4_address: 10.10.0.3
 
 networks:
   default:
