@@ -11,13 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('home');
-});
-
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'externalAuth'], function () {
+
+    Route::get('/', function () {
+        return redirect('home');
+    });
 
     Route::get('/home', 'HomeController@index');
 
