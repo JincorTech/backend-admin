@@ -18,6 +18,7 @@
         "infyomlabs/laravel-generator": "5.4.x-dev",
         "infyomlabs/swagger-generator": "dev-master",
         "jenssegers/mongodb": "^3.1",
+        "jincor/laravel-auth-client": "dev-master",
         "jlapp/swaggervel": "dev-master",
         "laravel/framework": "5.4.23",
         "laravel/tinker": "~1.0",

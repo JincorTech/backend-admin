@@ -11,6 +11,8 @@ services:
     tty: true
     links:
       - mongo
+      - auth
+      - redis
     volumes_from:
       - src
     ports:
@@ -21,13 +23,41 @@ services:
       default:
         ipv4_address: 10.10.0.4
 
+  auth:
+      image: registry.jincor.com/backend/auth:latest
+      environment:
+        REDIS_HOST: redis
+        REDIS_PORT: 6379
+        THROTTLER_WHITE_LIST: 127.0.0.1,10.10.0.2,10.10.0.3,10.10.0.4
+        TENANT_WHITE_LIST: 127.0.0.1,10.10.0.2,10.10.0.3,10.10.0.4
+        FORCE_HTTPS: disabled
+        JWT_KEY: "7z3B4gLdSx#fTlAmNnfrYC-;Gp#7fXfOk@cehjUHTWhDjSdcp1"
+      volumes:
+        - /usr/src/app
+      links:
+        - redis
+      networks:
+        default:
+          ipv4_address: 10.10.0.5
+
+  redis:
+      image: registry.jincor.com/backend/redis:latest
+      volumes:
+            - ./storage/redis:/data
+      networks:
+        default:
+          ipv4_address: 10.10.0.7
+
   mongo:
-    image: registry.jincor.com/backend/mongodb:latest
-    volumes:
-      - ./storage/mongodb:/data/db
-    networks:
-      default:
-        ipv4_address: 10.10.0.2
+      image: registry.jincor.com/backend/mongodb:latest
+      volumes:
+            - ./storage/mongodb:/data/db
+      networks:
+        default:
+          ipv4_address: 10.10.0.2
+      ports:
+        - 27017:27017
+        - 28017:28017
 
   src:
     image: tianon/true
