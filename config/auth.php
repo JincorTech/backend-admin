@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'externalAuth',
         'passwords' => 'users',
     ],
 
@@ -45,6 +45,10 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
+
+        'externalAuth' => [
+            'driver' => 'externalAuth',
+        ]
     ],
 
     /*

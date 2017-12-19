@@ -1,10 +1,21 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\User;
+use JincorTech\AuthClient\AuthServiceInterface;
 
 class AdminSeeder extends Seeder
 {
+
+    /**
+     * @var AuthServiceInterface
+     */
+    private $authService;
+
+    public function __construct(AuthServiceInterface $authService)
+    {
+        $this->authService = $authService;
+    }
+
     /**
      * Seed admin user
      *
@@ -13,16 +24,16 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        if (User::where('email', '=', 'admin@jincor.com')->exists()) {
-            throw new \Exception('Admin user already exists!');
-        }
-
         $password = $this->generateRandomString();
-        User::create([
-            'name' => 'Jincor Admin',
+
+        $this->authService->createUser([
             'email' => 'admin@jincor.com',
-            'password' => bcrypt($password),
-        ]);
+            'login' => 'admin@jincor.com',
+            'password' => $password,
+            'sub' => 'Jincor',
+            'scope' => 'jincor-admin'],
+            config('jincor-auth.jwt')
+        );
 
         echo 'Admin password:' . $password . "\n";
     }
@@ -32,7 +43,7 @@ class AdminSeeder extends Seeder
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
         }
         return $randomString;
     }
