@@ -38,3 +38,7 @@
     <a href="{!! route('cities.index') !!}"><i class="fa fa-edit"></i><span>Cities</span></a>
 </li>
 
+<li class="{{ Request::is('tenants*') ? 'active' : '' }}">
+    <a href="{!! route('tenants.index') !!}"><i class="fa fa-edit"></i><span>Tenants</span></a>
+</li>
+

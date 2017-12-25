@@ -166,7 +166,7 @@ return [
          * Package Service Providers...
          */
         Yajra\Datatables\ButtonsServiceProvider::class,
-        //Yajra\Datatables\DatatablesServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
         Pimlie\DatatablesMongodb\DatatablesMongodbServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,

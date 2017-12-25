@@ -73,3 +73,6 @@ Route::group(['middleware' => 'externalAuth'], function () {
 
     Route::resource('cities', 'CityController');
 });
+
+
+Route::resource('tenants', 'TenantController');

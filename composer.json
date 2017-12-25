@@ -24,6 +24,7 @@
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4.0",
         "pimlie/laravel-datatables-mongodb": "dev-master",
+        "predis/predis": "^2.0@dev",
         "yajra/laravel-datatables-buttons": "^1.0",
         "yajra/laravel-datatables-oracle": "^7.2"
     },
